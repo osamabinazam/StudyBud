@@ -11,9 +11,19 @@ from django.http import HttpResponse
 # def room(request):
 #     return HttpResponse("This Root For Chatting and Discussion in StudyBud")
 
+# list of client in rooms
+rooms = [
+     {'id':1 , 'name' : 'Lets learn python'},
+     {'id':2 , 'name': 'Design with me'},
+     {'id':3 , 'name':'Frontend Developers' }
+]
+
+
+
 # Rendering Home template
 def home(request):
-    return render(request , 'home.html')
+    context = {'rooms':rooms}
+    return render(request , 'base/home.html', context)
 #Rendering Room template
-def room(request):
-    return render(request ,'room.html' )
+def room(request, pk ):
+    return render(request ,'base/room.html' )
