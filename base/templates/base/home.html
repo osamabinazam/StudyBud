@@ -5,14 +5,17 @@
          
 {% block content %}
     <h1>
-        This is a Home page of StudyBud Project
+        Home Template
     </h1>
 
     <div>
         <div>
             {% for room in rooms %}
             <div>
+                <span>@{{room.host.username}}</span>
                 <h5>{{room.id}} -- <a href="/room/{{room.id}}">{{room.name}} </a> </h5>
+                <small>{{room.topic.name}}</small>
+                <br><hr>
             </div>
 
             {% endfor %}
