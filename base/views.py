@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Room
+from .forms import RoomForm
 # Create your views here.
 
 
@@ -29,3 +30,21 @@ def home(request):
 #Rendering Room template
 def room(request, pk ):
     return render(request ,'base/room.html' )
+
+#Creating room
+def createRoom (request):
+    form = RoomForm()
+    # Printing form values
+    if request.method == 'POST':
+        # for key, value in request.POST.items():
+        #     print(key , " : " , value)
+        form = RoomForm(request.POST)       # Passing request ot RoomForm that knows all about form
+        if form.is_valid():
+            form.save()                     # if data is valid then sent to db
+            return redirect('home')         #redirect user to homepage
+        else:
+            print("Data is Not valid in POST request")
+    else:
+        print("Error !, Expect POST request but didn't get it")
+    context = {'form':form}
+    return render(request,'base/room_form.html', context)
