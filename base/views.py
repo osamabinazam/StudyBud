@@ -48,3 +48,15 @@ def createRoom (request):
         print("Error !, Expect POST request but didn't get it")
     context = {'form':form}
     return render(request,'base/room_form.html', context)
+
+# Updating room
+def updateRoom(request, pk):
+    room = Room.objects.get(id=pk)
+    form = RoomForm(instance=room)
+    if request.method =='POST':
+        form = RoomForm(request.POST, instance=room )
+        if form.is_valid:
+            form.save()
+            return redirect('home')
+    context = {'form':form}
+    return render(request, 'base/room_form.html', context)

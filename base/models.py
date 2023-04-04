@@ -14,6 +14,9 @@ class Topic (models.Model):
 
 # Room Table 
 class Room(models.Model ):
+        """All are column fileds"""
+
+
         # set relation to host or users
         host = models.ForeignKey(User, on_delete=models.SET_NULL , null=True)
         # set relations to room's topic
@@ -28,6 +31,10 @@ class Room(models.Model ):
         update=models.DateTimeField(auto_now=True)
         # Stores time stamp when instance created first time
         created = models.DateTimeField(auto_now_add=True)
+
+        class Meta:
+                # ordering = ['update', 'created']               # ordering in ascending order
+                ordering = ['-update', '-created']             # ordering in Descending Order
 
         def __str__(self) :
                 return str(self.name)
