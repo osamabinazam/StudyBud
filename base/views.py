@@ -60,3 +60,25 @@ def updateRoom(request, pk):
             return redirect('home')
     context = {'form':form}
     return render(request, 'base/room_form.html', context)
+
+
+# Bootstrap form submission
+# def submit_boot(request):
+
+#     if request.method == 'POST':
+#         print("Connected to Frorm")
+#         name = request.POST.get('name')
+#         email = request.POST.get('email')
+#         print("Name is : ",request.POST.get('name'))
+#         print("Email is : ",request.POST.get('email'))
+
+#         # validating form
+#         if not name:
+#             return render(request, 'base/boot.html', {'error_message': 'Please enter a name'})
+#         elif not email:
+#             return render(request, 'base/boot.html', {'error_message': 'Please enter an email'})
+#         else:
+#             print("No one Ran")
+       
+#     context ={}
+#     return render(request, 'base/boot.html', context)

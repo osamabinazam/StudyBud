@@ -8,4 +8,7 @@ urlpatterns = [
    path("room/<str:pk>",views.room, name="room"),
    path("create-room/", views.createRoom, name="create-room"),
    path('update-room/<str:pk>/', views.updateRoom, name="update-room"),
+   
 ]
+
+# path('submit-form/',views.submit_boot , name='submit-form'),
