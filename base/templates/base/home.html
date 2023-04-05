@@ -1,6 +1,4 @@
 
-
-
 {% extends 'main.html' %}
          
 {% block content %}
@@ -8,18 +6,19 @@
         Home Template
     </h1>
 
-    <!-- <div>
+    
         <a href="{% url 'create-room' %}">Create room</a> <br><hr>
-
+        <!-- <div>
         {% comment %} Bootstrap form {% endcomment %}
         <div>
-            <a href="{% url 'submit-form' %}">Create Bootstrap Form</a>
+            <a href="">Create Bootstrap Form</a>
         </div> <br><hr> -->
-
         {% comment %} Rendering rooms {% endcomment %}
         <div>
             {% for room in rooms %}
-            <a href="{% url 'update-room' room.id %}">Edit</a>
+            <a href="{% url 'update-room' room.id %}">Edit</a> <br><hr>
+            <a href="{% url 'delete-room' room.id %}">Delete</a>
+            <br><hr>
             <div>
                 <span>@{{room.host.username}}</span>
                 <h5>{{room.id}} -- <a href="/room/{{room.id}}">{{room.name}} </a> </h5>

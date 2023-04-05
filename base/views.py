@@ -62,6 +62,15 @@ def updateRoom(request, pk):
     return render(request, 'base/room_form.html', context)
 
 
+#Delete Room 
+def deleteRoom(request, pk):
+    room = Room.objects.get(id=pk)
+    print("Room is : " , room)
+    if request.method == 'POST':
+        room.delete()
+        return redirect('home')
+    return render(request, 'base/delete.html', {'object':room})
+
 # Bootstrap form submission
 # def submit_boot(request):
 
