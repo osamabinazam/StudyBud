@@ -3,8 +3,35 @@ from django.http import HttpResponse
 from .models import Room, Topic
 from .forms import RoomForm
 from django.db.models import Q
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
+
+def loginForm(request):
+    context ={}
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get ('password')
+        try:
+            user =  User.objects.get(username=username)
+        except:
+            messages.error(request, "User Does not exist")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request=request ,user=user)
+            return redirect('home')
+        else:
+            messages.error(request, "Incorrect Username and Password")
+            
+    return render(request , 'base/login_register.html', context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
 
 # Get rid of HttpResponse
 
@@ -32,7 +59,9 @@ def home(request):
 def room(request, pk ):
     return render(request ,'base/room.html' )
 
+
 #Creating room
+@login_required(login_url='login')
 def createRoom (request):
     form = RoomForm()
     # Printing form values
@@ -51,9 +80,13 @@ def createRoom (request):
     return render(request,'base/room_form.html', context)
 
 # Updating room
+@login_required(login_url='login')
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
+    if request.user != room.host :
+        return HttpResponse('You are not Allowed here!!')
+
     if request.method =='POST':
         form = RoomForm(request.POST, instance=room )
         if form.is_valid:
@@ -64,13 +97,19 @@ def updateRoom(request, pk):
 
 
 #Delete Room 
+@login_required(login_url='login')
 def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
     print("Room is : " , room)
+    if request.user != room.host :
+        return HttpResponse('You are not Allowed here!!')
     if request.method == 'POST':
         room.delete()
         return redirect('home')
     return render(request, 'base/delete.html', {'object':room})
+
+
+
 
 # Bootstrap form submission
 # def submit_boot(request):
