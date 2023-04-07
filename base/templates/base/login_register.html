@@ -4,22 +4,39 @@
 {% block content %}
 
 <!-- Body -->
-<div>
-    <!-- Login Form -->
-    <form action="" method="post">
-        {% csrf_token %}
-        <label for="username">Username : </label>
-        <input type="text" name="username" placeholder="Enter Username" id="username">
-        <label for="password">Password : </label>
-        <input type="password" name ="password" placeholder="Enter Password" id="password">
-        <input type="submit" value="Submit">
-    </form>
+{% if page == 'login' %}
+    <div>
+        <!-- Login Form -->
+        <form action="" method="post">
+            {% csrf_token %}
+            <label for="username">Username : </label>
+            <input type="text" name="username" placeholder="Enter Username" id="username">
+            <label for="password">Password : </label>
+            <input type="password" name ="password" placeholder="Enter Password" id="password">
+            <input type="submit" value="Submit">
 
+            <p>Haven't signed up yet?</p>
+            <a href="{% url 'register' %}">Sign up</a>
+        </form>
+    </div>
+{% else %}
+    <div>
+        <!-- Login Form -->
+        <form action="" method="post">
+            {% csrf_token %}
+            <!-- <label for="username">Username : </label>
+            <input type="text" name="username" placeholder="Enter Username" id="username">
+            <label for="password">Password : </label>
+            <input type="password" name ="password" placeholder="Enter Password" id="password"> -->
+            {{form.as_p}}
+            
+            <input type="submit" value="Register">
 
-
-</div>
-
-
+            <p>Already signed up yet?</p>
+            <a href="{% url 'login' %}">Login</a>
+        </form>
+    </div>
+{% endif %}
     
 {% endblock content %}
     
