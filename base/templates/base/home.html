@@ -43,10 +43,10 @@
         {% comment %} Rendering rooms {% endcomment %}
         <div>     
             {% for room in rooms %}
-            {% if request.user != room.host %}
-            <a href="{% url 'update-room' room.id %}">Edit</a> <br><hr>
+            {% if request.user == room.host %}
+            <a href="{% url 'update-room' room.id %}">Edit</a> <br>
             <a href="{% url 'delete-room' room.id %}">Delete</a> 
-            <br><hr>
+            <br>
             {% endif %}
             <span>@{{room.host.username}}</span>
             <h5>{{room.id}} -- <a href="/room/{{room.id}}">{{room.name}} </a> </h5>
