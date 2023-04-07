@@ -3,5 +3,8 @@
     <h3>
         <a href="/">LOGO</a>
     </h3>
-    
+    <form action="{% url 'home' %}" method="GET">
 
+        <input type="text" name="q" placeholder="Search Rooms..." />
+    </form>
+    
