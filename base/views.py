@@ -83,7 +83,13 @@ def home(request):
 
     topics = Topic.objects.all()
     room_count = rooms.count()
-    context = {'rooms':rooms, 'topics':topics , 'room_count':room_count}
+    # Getting room messages (Quried)
+    # Filter
+    room_messages  =Message.objects.filter(Q(room__topic__name__icontains =q))
+
+
+    context = {'rooms':rooms, 'topics':topics , 
+               'room_count':room_count, 'room_messages':room_messages}
     return render(request , 'base/home.html', context )
 #Rendering Room template
 def room(request, pk):
@@ -92,7 +98,7 @@ def room(request, pk):
     # _set set reverse realtionship among Models and it based on foreign key
     # filtering most recent messages through order_by function
     # _set used to many to one relationship
-    room_messages = room.message_set.all().order_by('-created')
+    room_messages = room.message_set.all()
     
     # To get many to many relationship we use participants
     participants = room.participants.all()
@@ -173,6 +179,31 @@ def deleteMessage (request, pk):
         return redirect('home')
     context = {}
     return render(request, 'base/delete.html', {'object':message})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Bootstrap form submission
 # def submit_boot(request):
 
