@@ -23,7 +23,7 @@ class Room(models.Model ):
         description = models.TextField(null=True, blank=True)
 
         #Stores all users that are currently connected to room
-        # participants =
+        participants = models.ManyToManyField(User, related_name='participants', blank=True)
 
         # Store activity timestamp every time we save
         update=models.DateTimeField(auto_now=True)

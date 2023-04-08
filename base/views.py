@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from .models import Message
 # Create your views here.
 
 # Handle User Login
@@ -85,15 +86,29 @@ def home(request):
     context = {'rooms':rooms, 'topics':topics , 'room_count':room_count}
     return render(request , 'base/home.html', context )
 #Rendering Room template
-def room(request, pk ):
+def room(request, pk):
     room = Room.objects.get(id=pk)
-
     # Retrieve all messages from associated with room
     # _set set reverse realtionship among Models and it based on foreign key
-    room_messages = room.message_set.all()
-    print('Room Messages are : ' , room_messages)
-    # print(f"Users {room_messages.username}\nMessage created {room_messages.created}")
-    context = {'room':room , 'room_messages':room_messages}
+    # filtering most recent messages through order_by function
+    # _set used to many to one relationship
+    room_messages = room.message_set.all().order_by('-created')
+    
+    # To get many to many relationship we use participants
+    participants = room.participants.all()
+    print(participants)
+    if request.method =='POST' :
+        message = Message.objects.create(
+            user= request.user,
+            room = room,
+            body = request.POST.get('body')
+        )
+
+        # Adding User into manay to many relationship
+        room.participants.add(request.user)
+        return redirect('room', pk=room.id)
+
+    context = {'room':room, 'room_messages':room_messages , 'participants':participants}
     return render(request ,'base/room.html', context )
 
 
@@ -119,6 +134,7 @@ def createRoom (request):
 # Updating room
 @login_required(login_url='login')
 def updateRoom(request, pk):
+    print('PK IS : ' ,pk)
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
     if request.user != room.host :
@@ -145,9 +161,18 @@ def deleteRoom(request, pk):
         return redirect('home')
     return render(request, 'base/delete.html', {'object':room})
 
-
-
-
+# Delete message from room conversation
+@login_required
+def deleteMessage (request, pk):
+    message = Message.objects.get(id=pk)
+    print(message)
+    if request.user != message.user:
+        return HttpResponse('You are not allowed here')
+    if request.method == 'POST':
+        message.delete()
+        return redirect('home')
+    context = {}
+    return render(request, 'base/delete.html', {'object':message})
 # Bootstrap form submission
 # def submit_boot(request):
 
