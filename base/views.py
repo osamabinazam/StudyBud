@@ -86,7 +86,15 @@ def home(request):
     return render(request , 'base/home.html', context )
 #Rendering Room template
 def room(request, pk ):
-    return render(request ,'base/room.html' )
+    room = Room.objects.get(id=pk)
+
+    # Retrieve all messages from associated with room
+    # _set set reverse realtionship among Models and it based on foreign key
+    room_messages = room.message_set.all()
+    print('Room Messages are : ' , room_messages)
+    # print(f"Users {room_messages.username}\nMessage created {room_messages.created}")
+    context = {'room':room , 'room_messages':room_messages}
+    return render(request ,'base/room.html', context )
 
 
 #Creating room

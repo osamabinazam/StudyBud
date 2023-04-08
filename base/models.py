@@ -15,8 +15,6 @@ class Topic (models.Model):
 # Room Table 
 class Room(models.Model ):
         """All are column fileds"""
-
-
         # set relation to host or users
         host = models.ForeignKey(User, on_delete=models.SET_NULL , null=True)
         # set relations to room's topic
