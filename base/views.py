@@ -118,6 +118,22 @@ def room(request, pk):
     return render(request ,'base/room.html', context )
 
 
+# UserProfile
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    # Retieving all children of the model using _set
+    rooms = user.room_set.all()
+
+    # Retrievinf all messages associated to this user/particular user
+    room_messages = user.message_set.all()
+
+    # Retrieving topics
+    topics = Topic.objects.all()
+    context ={'user':user, 'rooms':rooms, 'room_messages':room_messages,'topics':topics}
+    return render(request, 'base/profile_component.html' , context)
+
+
+
 #Creating room
 @login_required(login_url='login')
 def createRoom (request):
