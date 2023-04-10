@@ -36,20 +36,7 @@
         <div>
             <a href="">Create Bootstrap Form</a>
         </div> <br><hr> -->
-        {% comment %} Rendering rooms {% endcomment %}
-        <div>     
-            {% for room in rooms %}
-            {% if request.user == room.host %}
-            <a href="{% url 'update-room' room.id %}">Edit</a> <br>
-            <a href="{% url 'delete-room' room.id %}">Delete</a> 
-            <br>
-            {% endif %}
-            <span>@{{room.host.username}}</span>
-            <h5>{{room.id}} -- <a href="/room/{{room.id}}">{{room.name}} </a> </h5>
-            <small>{{room.topic.name}}</small>
-            <br><hr>
-            {% endfor %}
-        </div>
+        {% include 'base/feed_component.html' %}
     </div>
     <!-- Right Column -->
     <!-- Activity Field -->
