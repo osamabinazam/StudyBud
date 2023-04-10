@@ -9,7 +9,8 @@ class RoomForm(ModelForm):
     class Meta:
         # create model for Room based on metadata of class Room
         model = Room
-        fields = '__all__'
+        fields = '__all__' # Render all fields of the forms 
+        exclude = ['host', 'participants']
 
 
 

@@ -142,10 +142,12 @@ def createRoom (request):
     if request.method == 'POST':
         # for key, value in request.POST.items():
         #     print(key , " : " , value)
-        form = RoomForm(request.POST)       # Passing request ot RoomForm that knows all about form
+        form = RoomForm(request.POST)        # Passing request ot RoomForm that knows all about form
         if form.is_valid():
-            form.save()                     # if data is valid then sent to db
-            return redirect('home')         #redirect user to homepage
+            room = form.save(commit=False)   # if data is valid then sent to db, commit ='False' let from to return an instance of the room
+            room.host = request.user         # Setting room host as a user host who created the room
+            room.save()
+            return redirect('home')          #redirect user to homepage
         else:
             print("Data is Not valid in POST request")
     else:
