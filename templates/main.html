@@ -1,18 +1,20 @@
 
-{% load static%}
-
+{% load static %} 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyBud</title>
-    <link rel="stylesheet" href="{% static 'styles/main.css' %}" type="text/css" media="screen">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
+    {% comment %} <link rel="stylesheet" href="style.css" /> {% endcomment %}
+    <title>StudyBuddy - Find study partners around the world!</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+  </head>
+  
+  <body>
+    {% comment %} Including navigation bar component to webapp {% endcomment %}
     {% include 'navbar.html' %}
-    
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}            
@@ -23,9 +25,11 @@
         </ul>
 
     {% endif %}
-        
-    <!-- <img src="{% static 'path to images in static folder'%}" alt=""> -->
     {% block content %}
-    {% endblock %}
+
+    
+    {% endblock content %}
+
+    <script src="{% static 'javascript/script.js' %}"></script>
 </body>
 </html>

@@ -1,0 +1,51 @@
+
+{% extends 'main.html' %}
+{% load static %}      
+{% block content %}
+    {% comment %} <h1>
+        Home Template
+    </h1> {% endcomment %}
+
+
+<!-- Inline CSS -->
+<!-- <style>
+    .home-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+</style> -->
+
+<!-- Include the CSS file in HTML template -->
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}"> -->
+
+<div class="home-container">
+    <div>
+        <!-- Embedding Topic component -->
+        {% include 'base/topic_component.html'%}
+    </div>
+   
+    <!-- Center Column -->
+    <div>
+
+        <!-- Creating Feed -->
+        <h5>{{room_count}} rooms available</h5>
+
+        <a href="{% url 'create-room' %}">Create room</a> <br><hr>
+        <!-- <div>
+        {% comment %} Bootstrap form {% endcomment %}
+        <div>
+            <a href="">Create Bootstrap Form</a>
+        </div> <br><hr> -->
+        {% include 'base/feed_component.html' %}
+    </div>
+    <!-- Right Column -->
+    <!-- Activity Field -->
+    <div>
+        <!-- Embedding activity component -->
+        {% include 'base/activity_component.html' %}
+            
+    </div>
+</div
+{% endblock content %}
+
+
