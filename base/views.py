@@ -137,22 +137,33 @@ def userProfile(request, pk):
 #Creating room
 @login_required(login_url='login')
 def createRoom (request):
+    topics = Topic.objects.all()
     form = RoomForm()
     # Printing form values
     if request.method == 'POST':
         # for key, value in request.POST.items():
         #     print(key , " : " , value)
+        topic_name = request.POST.get('topic')
+        topic , created = Topic.objects.get_or_create(name =topic_name)
         form = RoomForm(request.POST)        # Passing request ot RoomForm that knows all about form
-        if form.is_valid():
-            room = form.save(commit=False)   # if data is valid then sent to db, commit ='False' let from to return an instance of the room
-            room.host = request.user         # Setting room host as a user host who created the room
-            room.save()
-            return redirect('home')          #redirect user to homepage
-        else:
-            print("Data is Not valid in POST request")
+        
+        Room.objects.create(
+            host = request.user,
+            topic = topic,
+            name = request.POST.get('name'),
+            description =  request.POST.get('description'),
+        )
+        # Not Using It Because using my own created form
+        # if form.is_valid():
+        #     room = form.save(commit=False)   # if data is valid then sent to db, commit ='False' let from to return an instance of the room
+        #     room.host = request.user         # Setting room host as a user host who created the room
+        #     room.save()
+        return redirect('home')          #redirect user to homepage
+        # else:
+        #     print("Data is Not valid in POST request")
     else:
         print("Error !, Expect POST request but didn't get it")
-    context = {'form':form}
+    context = {'form':form , 'topics':topics}
     return render(request,'base/room_form.html', context)
 
 # Updating room
